@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Modul 1 – Konteks Puskesmas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root{
+      --green-dark:#1b5e20;
+      --green-main:#2e7d32;
+      --green-soft:#e8f5e9;
+      --green-accent:#66bb6a;
+      --danger:#c62828;
+      --gray:#e0e0e0;
+    }
+
+    body{
+      margin:0;
+      font-family:system-ui, sans-serif;
+      background:var(--green-soft);
+      color:#1f2937;
+    }
+
+    header{
+      background:linear-gradient(135deg,var(--green-dark),var(--green-main));
+      color:white;
+      padding:22px;
+    }
+
+    header h1{margin:0;font-size:1.5rem;}
+    header p{margin-top:6px;opacity:.9;font-size:.9rem;}
+
+    main{
+      max-width:900px;
+      margin:auto;
+      padding:20px 16px 100px;
+    }
+
+    section{
+      background:white;
+      border-radius:14px;
+      padding:20px;
+      margin-bottom:24px;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+    }
+
+    h2{margin-top:0;color:var(--green-dark);}
+    h3{margin-bottom:10px;}
+
+    /* cards */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:14px;
+    }
+
+    .card{
+      border:1px solid var(--gray);
+      border-radius:12px;
+      padding:14px;
+      cursor:pointer;
+      background:#fafafa;
+    }
+
+    .card:hover{background:var(--green-soft);}
+    .detail{display:none;font-size:.9rem;margin-top:8px;}
+
+    /* buttons */
+    button{
+      border:none;
+      border-radius:8px;
+      padding:10px 14px;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    .btn-green{background:var(--green-main);color:white;}
+    .btn-danger{background:var(--danger);color:white;}
+    .btn-gray{background:#cfd8dc;color:#455a64;}
+
+    /* quiz */
+    .question{margin-bottom:16px;}
+    .option{
+      display:block;
+      margin:6px 0;
+      padding:8px;
+      border:1px solid var(--gray);
+      border-radius:6px;
+      cursor:pointer;
+    }
+    .option:hover{background:var(--green-soft);}
+    .option.correct{background:#c8e6c9;}
+    .option.wrong{background:#ffcdd2;}
+
+    footer{
+      position:fixed;
+      bottom:0;left:0;right:0;
+      background:white;
+      border-top:1px solid #e5e7eb;
+      padding:12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Modul 1 – Konteks Puskesmas</h1>
+  <p>Memahami Puskesmas, jenis survei, dan lokasi pelaksanaan</p>
+</header>
+
+<main>
+
+  <!-- TOPIK 1.1 -->
+  <section>
+    <h2>1. Karakteristik Puskesmas</h2>
+    <div class="grid">
+      <div class="card" onclick="toggleDetail(this)">
+        Pelayanan Kesehatan Primer
+        <div class="detail">
+          Puskesmas adalah fasilitas pelayanan tingkat pertama dengan fokus promotif dan preventif.
+        </div>
+      </div>
+      <div class="card" onclick="toggleDetail(this)">
+        Dekat dengan Masyarakat
+        <div class="detail">
+          Memiliki wilayah kerja terbatas (desa/kelurahan/kecamatan) dan mengenal masyarakatnya.
+        </div>
+      </div>
+      <div class="card" onclick="toggleDetail(this)">
+        Sumber Daya Terbatas
+        <div class="detail">
+          Tenaga, fasilitas, dan alat medis lebih terbatas dibanding rumah sakit.
+        </div>
+      </div>
+      <div class="card" onclick="toggleDetail(this)">
+        Layanan Perseorangan & Masyarakat
+        <div class="detail">
+          Tidak hanya mengobati, tetapi juga penyuluhan, surveilans, dan pemberdayaan.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIK 1.2 -->
+  <section>
+    <h2>2. SKM vs SPZI (Jangan Salah!)</h2>
+    <p><strong>Skenario:</strong> Anda akan mulai survei. Pilih kuesioner yang tepat.</p>
+
+    <button class="btn-green" onclick="pilihSurvei('SKM')">Gunakan SKM</button>
+    <button class="btn-green" onclick="pilihSurvei('SPZI')">Gunakan SPZI</button>
+
+    <div id="surveiFeedback" style="margin-top:14px;font-weight:600;"></div>
+  </section>
+
+  <!-- TOPIK 1.3 -->
+  <section>
+    <h2>3. Dalam Gedung vs Luar Gedung</h2>
+    <p>Pilih lokasi survei Anda:</p>
+
+    <button class="btn-green" onclick="setLokasi('dalam')">Dalam Gedung</button>
+    <button class="btn-green" onclick="setLokasi('luar')">Luar Gedung</button>
+
+    <div id="lokasiChecklist" style="margin-top:16px;"></div>
+  </section>
+
+  <!-- QUIZ -->
+  <section>
+    <h2>Kuis Modul 1</h2>
+
+    <div class="question">
+      <strong>Puskesmas termasuk fasilitas pelayanan kesehatan…</strong>
+      <div class="option" onclick="jawab(this,false)">Rujukan tingkat lanjut</div>
+      <div class="option" onclick="jawab(this,true)">Primer tingkat pertama</div>
+      <div class="option" onclick="jawab(this,false)">Khusus rawat inap</div>
+    </div>
+
+    <div class="question">
+      <strong>Kesalahan fatal dalam survei adalah…</strong>
+      <div class="option" onclick="jawab(this,false)">Responden terburu-buru</div>
+      <div class="option" onclick="jawab(this,true)">Salah memilih kuesioner</div>
+      <div class="option" onclick="jawab(this,false)">Survei pagi hari</div>
+    </div>
+
+    <button class="btn-green" onclick="selesaiQuiz()">Selesaikan Modul</button>
+    <div id="hasilQuiz" style="margin-top:12px;font-weight:600;"></div>
+  </section>
+
+</main>
+
+<footer>
+  <button class="btn-gray" onclick="location.href='index.html'">⬅ Kembali</button>
+  <span>Modul 1</span>
+</footer>
+
+<script>
+  let skor = 0;
+  let total = 2;
+
+  function toggleDetail(card){
+    const d = card.querySelector(".detail");
+    d.style.display = d.style.display === "block" ? "none" : "block";
+  }
+
+  function pilihSurvei(jenis){
+    const f = document.getElementById("surveiFeedback");
+    if(jenis === "SKM"){
+      f.innerHTML = "❌ Salah! Pertanyaan pertama tentang pungli → seharusnya SPZI.";
+      f.style.color = "var(--danger)";
+    }else{
+      f.innerHTML = "✅ Benar! SPZI digunakan untuk integritas & anti korupsi.";
+      f.style.color = "var(--green-dark)";
+    }
+  }
+
+  function setLokasi(l){
+    const c = document.getElementById("lokasiChecklist");
+    if(l === "dalam"){
+      c.innerHTML = "Checklist: ID card ✔️ • Responden sudah selesai layanan ✔️";
+    }else{
+      c.innerHTML = "Checklist: Powerbank ✔️ • Mode offline ✔️ • Konfirmasi Posyandu ✔️";
+    }
+  }
+
+  function jawab(el, benar){
+    if(el.classList.contains("correct") || el.classList.contains("wrong")) return;
+    if(benar){
+      el.classList.add("correct");
+      skor++;
+    }else{
+      el.classList.add("wrong");
+    }
+  }
+
+  function selesaiQuiz(){
+    const nilai = Math.round((skor/total)*100);
+    const h = document.getElementById("hasilQuiz");
+    if(nilai >= 80){
+      h.innerHTML = `✅ LULUS (${nilai}%) – Modul 2 terbuka`;
+      h.style.color = "var(--green-dark)";
+      localStorage.setItem("modul1_lulus","true");
+    }else{
+      h.innerHTML = `❌ BELUM LULUS (${nilai}%) – ulangi modul`;
+      h.style.color = "var(--danger)";
+    }
+  }
+</script>
+
+</body>
+</html>
