@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Modul 2 – Survei Kepuasan Masyarakat (SKM)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root{
+      --green-dark:#1b5e20;
+      --green-main:#2e7d32;
+      --green-soft:#e8f5e9;
+      --green-accent:#66bb6a;
+      --danger:#c62828;
+      --gray:#e0e0e0;
+    }
+
+    body{
+      margin:0;
+      font-family:system-ui,sans-serif;
+      background:var(--green-soft);
+      color:#1f2937;
+    }
+
+    header{
+      background:linear-gradient(135deg,var(--green-dark),var(--green-main));
+      color:white;
+      padding:22px;
+    }
+
+    main{
+      max-width:960px;
+      margin:auto;
+      padding:20px 16px 100px;
+    }
+
+    section{
+      background:white;
+      border-radius:14px;
+      padding:20px;
+      margin-bottom:24px;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+    }
+
+    h2{margin-top:0;color:var(--green-dark);}
+
+    /* 9 aspek grid */
+    .aspek-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:14px;
+    }
+
+    .aspek{
+      border:1px solid var(--gray);
+      border-radius:12px;
+      padding:14px;
+      cursor:pointer;
+      background:#fafafa;
+    }
+
+    .aspek:hover{background:var(--green-soft);}
+    .aspek-detail{display:none;font-size:.9rem;margin-top:8px;}
+
+    /* game */
+    .option{
+      display:block;
+      margin:6px 0;
+      padding:8px;
+      border:1px solid var(--gray);
+      border-radius:6px;
+      cursor:pointer;
+    }
+    .option:hover{background:var(--green-soft);}
+    .correct{background:#c8e6c9;}
+    .wrong{background:#ffcdd2;}
+
+    /* slider */
+    input[type=range]{width:100%;}
+
+    button{
+      border:none;
+      border-radius:8px;
+      padding:10px 14px;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .btn-green{background:var(--green-main);color:white;}
+    .btn-gray{background:#cfd8dc;color:#455a64;}
+
+    footer{
+      position:fixed;
+      bottom:0;left:0;right:0;
+      background:white;
+      border-top:1px solid #e5e7eb;
+      padding:12px;
+      display:flex;
+      justify-content:space-between;
+    }
+  </style>
+</head>
+
+<body>
+
+<script>
+  if(localStorage.getItem("modul1_lulus")!=="true"){
+    alert("Modul 1 belum lulus. Selesaikan Modul 1 terlebih dahulu.");
+    location.href="index.html";
+  }
+</script>
+
+<header>
+  <h1>Modul 2 – Survei Kepuasan Masyarakat (SKM)</h1>
+  <p>Memahami 9 aspek, skala penilaian, dan interpretasi jawaban</p>
+</header>
+
+<main>
+
+  <!-- 9 ASPEK -->
+  <section>
+    <h2>1. 9 Aspek Pelayanan SKM</h2>
+    <div class="aspek-grid">
+      <div class="aspek" onclick="toggle(this)">
+        Persyaratan
+        <div class="aspek-detail">Kemudahan & kejelasan syarat (KTP, BPJS, Buku KIA).</div>
+      </div>
+      <div class="aspek" onclick="toggle(this)">
+        Prosedur
+        <div class="aspek-detail">Alur layanan jelas dan tidak berbelit.</div>
+      </div>
+      <div class="aspek" onclick="toggle(this)">
+        Waktu Pelayanan
+        <div class="aspek-detail">Kecepatan & waktu tunggu pelayanan.</div>
+      </div>
+      <div class="aspek" onclick="toggle(this)">
+        Biaya/Tarif
+        <div class="aspek-detail">Kesesuaian biaya dan tidak ada pungli.</div>
+      </div>
+      <div class="aspek" onclick="toggle(this)">
+        Produk Layanan
+        <div class="aspek-detail">Hasil layanan sesuai harapan.</div>
+      </div>
+      <div class="aspek" onclick="toggle(this)">
+        Kompetensi Petugas
+        <div class="aspek-detail">Petugas terampil & berpengetahuan.</div>
+      </div>
+      <div class="aspek" onclick="toggle(this)">
+        Perilaku Petugas
+        <div class="aspek-detail">Ramah, sopan, tidak judes.</div>
+      </div>
+      <div class="aspek" onclick="toggle(this)">
+        Penanganan Pengaduan
+        <div class="aspek-detail">Ada mekanisme pengaduan yang jelas.</div>
+      </div>
+      <div class="aspek" onclick="toggle(this)">
+        Sarana & Prasarana
+        <div class="aspek-detail">Fasilitas bersih, nyaman, memadai.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MINI GAME -->
+  <section>
+    <h2>2. Mini Game – Masuk Aspek Mana?</h2>
+    <p><strong>Skenario:</strong> “Petugas terlihat jutek dan tidak ramah.”</p>
+
+    <div class="option" onclick="jawabGame(this,false)">Produk Layanan</div>
+    <div class="option" onclick="jawabGame(this,true)">Perilaku Petugas</div>
+    <div class="option" onclick="jawabGame(this,false)">Persyaratan</div>
+  </section>
+
+  <!-- SKALA -->
+  <section>
+    <h2>3. Simulasi Skala Penilaian</h2>
+    <p>Responden berkata: <em>“Lumayan sih, nggak terlalu lama.”</em></p>
+
+    <input type="range" min="1" max="4" value="3" oninput="updateNilai(this.value)">
+    <p>Nilai dipilih: <strong id="nilai">3 (Baik)</strong></p>
+  </section>
+
+  <!-- QUIZ -->
+  <section>
+    <h2>Kuis Modul 2</h2>
+
+    <div class="option" onclick="jawabQuiz(this,true)">
+      Aspek yang paling kasat mata adalah Sarana & Prasarana
+    </div>
+    <div class="option" onclick="jawabQuiz(this,false)">
+      Enumerator boleh mengubah redaksi pertanyaan
+    </div>
+
+    <button class="btn-green" onclick="selesai()">Selesaikan Modul</button>
+    <div id="hasil" style="margin-top:10px;font-weight:600;"></div>
+  </section>
+
+</main>
+
+<footer>
+  <button class="btn-gray" onclick="location.href='index.html'">⬅ Dashboard</button>
+  <span>Modul 2</span>
+</footer>
+
+<script>
+  let skor=0, total=2;
+
+  function toggle(el){
+    const d=el.querySelector(".aspek-detail");
+    d.style.display=d.style.display==="block"?"none":"block";
+  }
+
+  function jawabGame(el,benar){
+    if(el.classList.contains("correct")||el.classList.contains("wrong"))return;
+    if(benar){el.classList.add("correct");skor++;}
+    else{el.classList.add("wrong");}
+  }
+
+  function updateNilai(v){
+    const map={1:"Tidak Baik",2:"Kurang Baik",3:"Baik",4:"Sangat Baik"};
+    document.getElementById("nilai").innerText=`${v} (${map[v]})`;
+  }
+
+  function jawabQuiz(el,benar){
+    if(el.classList.contains("correct")||el.classList.contains("wrong"))return;
+    if(benar){el.classList.add("correct");skor++;}
+    else{el.classList.add("wrong");}
+  }
+
+  function selesai(){
+    const nilai=Math.round((skor/total)*100);
+    const h=document.getElementById("hasil");
+    if(nilai>=80){
+      h.innerHTML=`✅ LULUS (${nilai}%) – Modul 3 terbuka`;
+      h.style.color="var(--green-dark)";
+      localStorage.setItem("modul2_lulus","true");
+    }else{
+      h.innerHTML=`❌ BELUM LULUS (${nilai}%) – ulangi`;
+      h.style.color="var(--danger)";
+    }
+  }
+</script>
+
+</body>
+</html>
