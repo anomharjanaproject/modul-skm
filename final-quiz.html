@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Final Quiz – Enumerator Puskesmas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root{
+      --green-dark:#1b5e20;
+      --green-main:#2e7d32;
+      --green-soft:#e8f5e9;
+      --danger:#c62828;
+      --gray:#e0e0e0;
+    }
+
+    body{
+      margin:0;
+      font-family:system-ui,sans-serif;
+      background:var(--green-soft);
+      color:#1f2937;
+    }
+
+    header{
+      background:linear-gradient(135deg,var(--green-dark),var(--green-main));
+      color:white;
+      padding:22px;
+    }
+
+    main{
+      max-width:960px;
+      margin:auto;
+      padding:20px 16px 110px;
+    }
+
+    section{
+      background:white;
+      border-radius:14px;
+      padding:20px;
+      margin-bottom:24px;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+    }
+
+    h2{margin-top:0;color:var(--green-dark);}
+
+    .question{
+      margin-bottom:18px;
+    }
+
+    .option{
+      display:block;
+      padding:10px;
+      margin:6px 0;
+      border:1px solid var(--gray);
+      border-radius:8px;
+      cursor:pointer;
+    }
+    .option:hover{background:var(--green-soft);}
+    .correct{background:#c8e6c9;}
+    .wrong{background:#ffcdd2;}
+
+    button{
+      border:none;
+      border-radius:8px;
+      padding:12px 16px;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    .btn-green{background:var(--green-main);color:white;}
+    .btn-gray{background:#cfd8dc;color:#455a64;}
+
+    footer{
+      position:fixed;
+      bottom:0;left:0;right:0;
+      background:white;
+      border-top:1px solid #e5e7eb;
+      padding:12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+  </style>
+</head>
+
+<body>
+
+<script>
+  const wajib = ["modul1_lulus","modul2_lulus","modul3_lulus","modul4_lulus"];
+  if(!wajib.every(m => localStorage.getItem(m)==="true")){
+    alert("Semua modul (1–4) harus lulus sebelum Final Quiz.");
+    location.href="index.html";
+  }
+</script>
+
+<header>
+  <h1>Final Quiz</h1>
+  <p>Ujian Akhir Enumerator Puskesmas</p>
+</header>
+
+<main>
+
+  <section>
+    <h2>Jawablah Pertanyaan Berikut</h2>
+
+    <div class="question">
+      <strong>1. Puskesmas termasuk fasilitas pelayanan kesehatan…</strong>
+      <div class="option" onclick="jawab(this,true)">Primer tingkat pertama</div>
+      <div class="option" onclick="jawab(this,false)">Rujukan tersier</div>
+      <div class="option" onclick="jawab(this,false)">Khusus rawat inap</div>
+    </div>
+
+    <div class="question">
+      <strong>2. Kesalahan fatal dalam survei adalah…</strong>
+      <div class="option" onclick="jawab(this,true)">Salah memilih kuesioner SKM/SPZI</div>
+      <div class="option" onclick="jawab(this,false)">Responden terburu-buru</div>
+      <div class="option" onclick="jawab(this,false)">Survei pagi hari</div>
+    </div>
+
+    <div class="question">
+      <strong>3. Aspek SKM yang paling kasat mata untuk diverifikasi adalah…</strong>
+      <div class="option" onclick="jawab(this,true)">Sarana & Prasarana</div>
+      <div class="option" onclick="jawab(this,false)">Kompetensi</div>
+      <div class="option" onclick="jawab(this,false)">Produk layanan</div>
+    </div>
+
+    <div class="question">
+      <strong>4. Pertanyaan tentang pungutan liar masuk dalam…</strong>
+      <div class="option" onclick="jawab(this,true)">IPAK</div>
+      <div class="option" onclick="jawab(this,false)">IPKP</div>
+      <div class="option" onclick="jawab(this,false)">SKM</div>
+    </div>
+
+    <div class="question">
+      <strong>5. Responden terlihat takut menjawab pertanyaan sensitif. Sikap terbaik enumerator adalah…</strong>
+      <div class="option" onclick="jawab(this,true)">
+        Menekankan kerahasiaan dan memberi opsi tidak menjawab
+      </div>
+      <div class="option" onclick="jawab(this,false)">
+        Memaksa demi kelengkapan data
+      </div>
+      <div class="option" onclick="jawab(this,false)">
+        Mengganti jawaban sendiri
+      </div>
+    </div>
+
+    <div class="question">
+      <strong>6. Informed consent dilakukan pada tahap…</strong>
+      <div class="option" onclick="jawab(this,true)">Sebelum wawancara inti</div>
+      <div class="option" onclick="jawab(this,false)">Setelah wawancara</div>
+      <div class="option" onclick="jawab(this,false)">Boleh dilewati jika responden setuju</div>
+    </div>
+
+    <button class="btn-green" onclick="selesai()">Selesaikan Final Quiz</button>
+    <div id="hasil" style="margin-top:14px;font-weight:600;"></div>
+
+  </section>
+
+</main>
+
+<footer>
+  <button class="btn-gray" onclick="location.href='index.html'">⬅ Dashboard</button>
+  <span>Final Quiz</span>
+</footer>
+
+<script>
+  let skor = 0;
+  const total = 6;
+
+  function jawab(el, benar){
+    if(el.classList.contains("correct") || el.classList.contains("wrong")) return;
+    if(benar){
+      el.classList.add("correct");
+      skor++;
+    }else{
+      el.classList.add("wrong");
+    }
+  }
+
+  function selesai(){
+    const nilai = Math.round((skor / total) * 100);
+    const h = document.getElementById("hasil");
+
+    if(nilai >= 85){
+      h.innerHTML = `🎉 LULUS FINAL QUIZ (${nilai}%)`;
+      h.style.color = "var(--green-dark)";
+      localStorage.setItem("final_lulus","true");
+      setTimeout(()=>location.href="result.html",1500);
+    }else{
+      h.innerHTML = `❌ BELUM LULUS (${nilai}%) – minimal 85%`;
+      h.style.color = "var(--danger)";
+    }
+  }
+</script>
+
+</body>
+</html>
