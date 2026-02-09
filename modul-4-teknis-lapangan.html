@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Modul 4 – Teknis Pelaksanaan Survei</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root{
+      --green-dark:#1b5e20;
+      --green-main:#2e7d32;
+      --green-soft:#e8f5e9;
+      --green-accent:#66bb6a;
+      --danger:#c62828;
+      --gray:#e0e0e0;
+    }
+
+    body{
+      margin:0;
+      font-family:system-ui,sans-serif;
+      background:var(--green-soft);
+      color:#1f2937;
+    }
+
+    header{
+      background:linear-gradient(135deg,var(--green-dark),var(--green-main));
+      color:white;
+      padding:22px;
+    }
+
+    main{
+      max-width:960px;
+      margin:auto;
+      padding:20px 16px 110px;
+    }
+
+    section{
+      background:white;
+      border-radius:14px;
+      padding:20px;
+      margin-bottom:24px;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+    }
+
+    h2{margin-top:0;color:var(--green-dark);}
+    h3{margin-bottom:6px;}
+
+    /* step flow */
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:12px;
+    }
+
+    .step{
+      border:1px solid var(--gray);
+      border-radius:12px;
+      padding:14px;
+      background:#fafafa;
+      cursor:pointer;
+    }
+    .step:hover{background:var(--green-soft);}
+    .step-detail{display:none;font-size:.9rem;margin-top:8px;}
+
+    /* checklist */
+    .check{
+      display:block;
+      margin:6px 0;
+      font-size:.95rem;
+    }
+
+    /* mock phone */
+    .phone{
+      max-width:320px;
+      margin:auto;
+      border:10px solid #333;
+      border-radius:24px;
+      padding:12px;
+      background:#000;
+    }
+    .screen{
+      background:white;
+      border-radius:14px;
+      padding:12px;
+      min-height:260px;
+      font-size:.9rem;
+    }
+
+    /* options */
+    .option{
+      display:block;
+      padding:8px;
+      margin:6px 0;
+      border:1px solid var(--gray);
+      border-radius:6px;
+      cursor:pointer;
+    }
+    .option:hover{background:var(--green-soft);}
+    .correct{background:#c8e6c9;}
+    .wrong{background:#ffcdd2;}
+
+    button{
+      border:none;
+      border-radius:8px;
+      padding:10px 14px;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .btn-green{background:var(--green-main);color:white;}
+    .btn-gray{background:#cfd8dc;color:#455a64;}
+
+    footer{
+      position:fixed;
+      bottom:0;left:0;right:0;
+      background:white;
+      border-top:1px solid #e5e7eb;
+      padding:12px;
+      display:flex;
+      justify-content:space-between;
+    }
+  </style>
+</head>
+
+<body>
+
+<script>
+  if(localStorage.getItem("modul3_lulus")!=="true"){
+    alert("Modul 3 belum lulus. Selesaikan Modul 3 terlebih dahulu.");
+    location.href="index.html";
+  }
+</script>
+
+<header>
+  <h1>Modul 4 – Teknis Pelaksanaan Survei</h1>
+  <p>Alur wawancara, etika lapangan, dan penggunaan Clappia</p>
+</header>
+
+<main>
+
+  <!-- ALUR WAWANCARA -->
+  <section>
+    <h2>1. Alur Wawancara Enumerator</h2>
+    <div class="steps">
+      <div class="step" onclick="toggle(this)">
+        Perkenalan
+        <div class="step-detail">
+          Sapa ramah, perkenalkan diri, tunjukkan ID & surat tugas.
+        </div>
+      </div>
+      <div class="step" onclick="toggle(this)">
+        Informed Consent
+        <div class="step-detail">
+          Jelaskan tujuan, kerahasiaan, dan minta persetujuan.
+        </div>
+      </div>
+      <div class="step" onclick="toggle(this)">
+        Wawancara Inti
+        <div class="step-detail">
+          Baca pertanyaan persis, netral, dan catat langsung.
+        </div>
+      </div>
+      <div class="step" onclick="toggle(this)">
+        Verifikasi
+        <div class="step-detail">
+          Pastikan semua jawaban terisi & tidak ambigu.
+        </div>
+      </div>
+      <div class="step" onclick="toggle(this)">
+        Penutup
+        <div class="step-detail">
+          Ucapkan terima kasih dan pastikan data tersimpan.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DO & DONT -->
+  <section>
+    <h2>2. DO & DON’T di Lapangan</h2>
+    <ul>
+      <li>✅ Gunakan bahasa sederhana & netral</li>
+      <li>✅ Hormati kondisi responden</li>
+      <li>❌ Jangan skip informed consent</li>
+      <li>❌ Jangan mengarahkan jawaban</li>
+      <li>❌ Jangan membahas jawaban dengan petugas</li>
+    </ul>
+  </section>
+
+  <!-- SIMULASI CLAPPIA -->
+  <section>
+    <h2>3. Simulasi Penggunaan Clappia</h2>
+
+    <div class="phone">
+      <div class="screen" id="screen">
+        <strong>Clappia</strong><br><br>
+        Pilih kuesioner:<br>
+        • SKM Puskesmas<br>
+        • SPZI Puskesmas<br><br>
+        <button class="btn-green" onclick="clappiaStep(1)">Add Submission</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- CHECKLIST -->
+  <section>
+    <h2>4. Checklist Sebelum Pulang</h2>
+    <label class="check"><input type="checkbox"> Semua data sudah diisi</label>
+    <label class="check"><input type="checkbox"> Data sudah di-sync</label>
+    <label class="check"><input type="checkbox"> Tidak ada data tertinggal di gawai</label>
+    <label class="check"><input type="checkbox"> Sudah lapor koordinator</label>
+  </section>
+
+  <!-- QUIZ -->
+  <section>
+    <h2>Kuis Modul 4</h2>
+
+    <div class="option" onclick="jawab(this,true)">
+      Informed consent wajib dilakukan sebelum wawancara
+    </div>
+    <div class="option" onclick="jawab(this,false)">
+      Jawaban responden boleh dibagikan ke petugas agar transparan
+    </div>
+
+    <button class="btn-green" onclick="selesai()">Selesaikan Modul</button>
+    <div id="hasil" style="margin-top:10px;font-weight:600;"></div>
+  </section>
+
+</main>
+
+<footer>
+  <button class="btn-gray" onclick="location.href='index.html'">⬅ Dashboard</button>
+  <span>Modul 4</span>
+</footer>
+
+<script>
+  let skor=0, total=2;
+
+  function toggle(el){
+    const d=el.querySelector(".step-detail");
+    d.style.display=d.style.display==="block"?"none":"block";
+  }
+
+  function clappiaStep(step){
+    const s=document.getElementById("screen");
+    if(step===1){
+      s.innerHTML=`Form terbuka...<br><br>
+        Mode: <strong>Offline</strong><br><br>
+        <button class="btn-green" onclick="clappiaStep(2)">Submit</button>`;
+    }else{
+      s.innerHTML=`✅ Data tersimpan lokal<br>
+        🔄 Jangan lupa sync saat ada internet`;
+    }
+  }
+
+  function jawab(el,benar){
+    if(el.classList.contains("correct")||el.classList.contains("wrong"))return;
+    if(benar){el.classList.add("correct");skor++;}
+    else{el.classList.add("wrong");}
+  }
+
+  function selesai(){
+    const nilai=Math.round((skor/total)*100);
+    const h=document.getElementById("hasil");
+    if(nilai>=80){
+      h.innerHTML=`✅ LULUS (${nilai}%) – Final Quiz terbuka`;
+      h.style.color="var(--green-dark)";
+      localStorage.setItem("modul4_lulus","true");
+    }else{
+      h.innerHTML=`❌ BELUM LULUS (${nilai}%) – ulangi modul`;
+      h.style.color="var(--danger)";
+    }
+  }
+</script>
+
+</body>
+</html>
