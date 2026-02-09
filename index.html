@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>E-Learning Enumerator Puskesmas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --green-dark: #1b5e20;
+      --green-main: #2e7d32;
+      --green-soft: #e8f5e9;
+      --green-accent: #66bb6a;
+      --gray: #e0e0e0;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--green-soft);
+      color: #1f2937;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--green-dark), var(--green-main));
+      color: white;
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    header p {
+      margin-top: 8px;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 16px 80px;
+    }
+
+    .progress-container {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 28px;
+    }
+
+    .progress-label {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 14px;
+      background: var(--gray);
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--green-accent), var(--green-main));
+      transition: width 0.6s ease;
+    }
+
+    .module-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .module-card {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .module-card h3 {
+      margin: 0 0 6px;
+      font-size: 1.1rem;
+    }
+
+    .module-card p {
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin-bottom: 16px;
+    }
+
+    .status {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .status.locked { color: #9e9e9e; }
+    .status.done { color: var(--green-main); }
+    .status.open { color: #f9a825; }
+
+    .module-card button {
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-open {
+      background: var(--green-main);
+      color: white;
+    }
+
+    .btn-locked {
+      background: #cfd8dc;
+      color: #607d8b;
+      cursor: not-allowed;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid #e5e7eb;
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Pelatihan Enumerator Puskesmas</h1>
+  <p>E-Learning Interaktif • SKM & SPZI</p>
+</header>
+
+<main>
+
+  <!-- PROGRESS -->
+  <div class="progress-container">
+    <div class="progress-label">Progress Keseluruhan</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- MODULE LIST -->
+  <div class="module-list" id="moduleList"></div>
+
+</main>
+
+<footer>
+  © 2026 • E-Learning Enumerator Puskesmas
+</footer>
+
+<script>
+  const modules = [
+    {
+      id: 1,
+      title: "Modul 1 – Konteks Puskesmas",
+      desc: "Memahami Puskesmas, SKM vs SPZI, survei dalam & luar gedung",
+      file: "modul-1-konteks-puskesmas.html"
+    },
+    {
+      id: 2,
+      title: "Modul 2 – Survei Kepuasan Masyarakat (SKM)",
+      desc: "9 aspek pelayanan, skala penilaian, dan kriteria responden",
+      file: "modul-2-skm.html"
+    },
+    {
+      id: 3,
+      title: "Modul 3 – Zona Integritas (SPZI)",
+      desc: "IPKP, IPAK, dan simulasi pertanyaan sensitif",
+      file: "modul-3-spzi.html"
+    },
+    {
+      id: 4,
+      title: "Modul 4 – Teknis Lapangan",
+      desc: "Alur wawancara, etika, dan penggunaan Clappia",
+      file: "modul-4-teknis-lapangan.html"
+    },
+    {
+      id: 5,
+      title: "Final Quiz",
+      desc: "Ujian akhir seluruh materi",
+      file: "final-quiz.html"
+    }
+  ];
+
+  function isModuleUnlocked(index) {
+    if (index === 0) return true;
+    return localStorage.getItem(`modul${index}_lulus`) === "true";
+  }
+
+  function renderModules() {
+    const container = document.getElementById("moduleList");
+    container.innerHTML = "";
+
+    let completed = 0;
+
+    modules.forEach((m, i) => {
+      const unlocked = isModuleUnlocked(i);
+      const done = localStorage.getItem(`modul${m.id}_lulus`) === "true";
+
+      if (done) completed++;
+
+      const statusText = done
+        ? "✅ Lulus"
+        : unlocked
+        ? "🟡 Siap dikerjakan"
+        : "🔒 Terkunci";
+
+      const statusClass = done
+        ? "done"
+        : unlocked
+        ? "open"
+        : "locked";
+
+      const card = document.createElement("div");
+      card.className = "module-card";
+
+      card.innerHTML = `
+        <h3>${m.title}</h3>
+        <p>${m.desc}</p>
+        <div class="status ${statusClass}">${statusText}</div>
+        <button
+          class="${unlocked ? "btn-open" : "btn-locked"}"
+          ${unlocked ? "" : "disabled"}
+          onclick="location.href='${m.file}'">
+          ${done ? "Ulangi Modul" : "Mulai"}
+        </button>
+      `;
+
+      container.appendChild(card);
+    });
+
+    const progress = Math.round((completed / modules.length) * 100);
+    document.getElementById("progressFill").style.width = progress + "%";
+  }
+
+  renderModules();
+</script>
+
+</body>
+</html>
