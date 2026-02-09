@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Modul 3 – Survei Pembangunan Zona Integritas (SPZI)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root{
+      --green-dark:#1b5e20;
+      --green-main:#2e7d32;
+      --green-soft:#e8f5e9;
+      --green-accent:#66bb6a;
+      --danger:#c62828;
+      --danger-soft:#fdecea;
+      --gray:#e0e0e0;
+    }
+
+    body{
+      margin:0;
+      font-family:system-ui,sans-serif;
+      background:var(--green-soft);
+      color:#1f2937;
+    }
+
+    header{
+      background:linear-gradient(135deg,var(--green-dark),var(--green-main));
+      color:white;
+      padding:22px;
+    }
+
+    main{
+      max-width:960px;
+      margin:auto;
+      padding:20px 16px 110px;
+    }
+
+    section{
+      background:white;
+      border-radius:14px;
+      padding:20px;
+      margin-bottom:24px;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+    }
+
+    h2{margin-top:0;color:var(--green-dark);}
+    h3{margin-bottom:6px;}
+
+    .box{
+      border:1px solid var(--gray);
+      border-radius:12px;
+      padding:14px;
+      margin-bottom:14px;
+      background:#fafafa;
+    }
+
+    .ipak{
+      background:var(--danger-soft);
+      border-color:var(--danger);
+    }
+
+    button{
+      border:none;
+      border-radius:8px;
+      padding:10px 14px;
+      font-weight:600;
+      cursor:pointer;
+      margin-right:6px;
+    }
+
+    .btn-green{background:var(--green-main);color:white;}
+    .btn-danger{background:var(--danger);color:white;}
+    .btn-gray{background:#cfd8dc;color:#455a64;}
+
+    .option{
+      display:block;
+      padding:8px;
+      margin:6px 0;
+      border:1px solid var(--gray);
+      border-radius:6px;
+      cursor:pointer;
+    }
+    .option:hover{background:var(--green-soft);}
+    .correct{background:#c8e6c9;}
+    .wrong{background:#ffcdd2;}
+
+    .warning{
+      background:var(--danger-soft);
+      border-left:6px solid var(--danger);
+      padding:12px;
+      margin-bottom:14px;
+      font-size:.9rem;
+    }
+
+    footer{
+      position:fixed;
+      bottom:0;left:0;right:0;
+      background:white;
+      border-top:1px solid #e5e7eb;
+      padding:12px;
+      display:flex;
+      justify-content:space-between;
+    }
+  </style>
+</head>
+
+<body>
+
+<script>
+  if(localStorage.getItem("modul2_lulus")!=="true"){
+    alert("Modul 2 belum lulus. Selesaikan Modul 2 terlebih dahulu.");
+    location.href="index.html";
+  }
+</script>
+
+<header>
+  <h1>Modul 3 – Zona Integritas (SPZI)</h1>
+  <p>IPKP, IPAK, dan etika pertanyaan sensitif</p>
+</header>
+
+<main>
+
+  <!-- PENGENALAN -->
+  <section>
+    <h2>1. Apa itu SPZI?</h2>
+    <p>
+      SPZI mengukur <strong>kualitas pelayanan</strong> sekaligus
+      <strong>praktik integritas & anti-korupsi</strong>
+      dalam rangka WBK/WBBM.
+    </p>
+  </section>
+
+  <!-- IPKP vs IPAK -->
+  <section>
+    <h2>2. Komponen SPZI</h2>
+
+    <div class="box">
+      <h3>IPKP – Indeks Persepsi Kualitas Pelayanan</h3>
+      <ul>
+        <li>Persyaratan</li>
+        <li>Prosedur</li>
+        <li>Waktu Pelayanan</li>
+        <li>Biaya/Tarif</li>
+        <li>Produk Layanan</li>
+        <li>Kompetensi & Perilaku Petugas</li>
+      </ul>
+    </div>
+
+    <div class="box ipak">
+      <h3>IPAK – Indeks Persepsi Anti Korupsi</h3>
+      <div class="warning">
+        ⚠️ Pertanyaan IPAK bersifat sensitif. Jaga privasi, kerahasiaan,
+        dan gunakan bahasa halus.
+      </div>
+      <ul>
+        <li>Pungutan liar (pungli)</li>
+        <li>Percaloan</li>
+        <li>Diskriminasi</li>
+        <li>Gratifikasi</li>
+        <li>Transparansi</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ROLE PLAY -->
+  <section>
+    <h2>3. Role-Play Pertanyaan Sensitif</h2>
+    <p>
+      <strong>Skenario:</strong> Responden terlihat ragu dan takut menjawab
+      pertanyaan tentang biaya tambahan.
+    </p>
+
+    <div class="option" onclick="jawabRole(this,false)">
+      Paksa responden agar menjawab demi kelengkapan data
+    </div>
+    <div class="option" onclick="jawabRole(this,true)">
+      Tekankan kerahasiaan dan beri opsi tidak menjawab
+    </div>
+    <div class="option" onclick="jawabRole(this,false)">
+      Menanyakan dengan suara keras agar cepat selesai
+    </div>
+  </section>
+
+  <!-- ETIKA -->
+  <section>
+    <h2>4. Etika Enumerator pada SPZI</h2>
+    <ul>
+      <li>Jangan konfrontasi petugas di lokasi</li>
+      <li>Jangan menunjukkan layar jawaban ke siapa pun</li>
+      <li>Jangan memaksa responden menjawab IPAK</li>
+      <li>Laporkan indikasi serius ke koordinator (bukan di lokasi)</li>
+    </ul>
+  </section>
+
+  <!-- QUIZ -->
+  <section>
+    <h2>Kuis Modul 3</h2>
+
+    <div class="option" onclick="jawabQuiz(this,true)">
+      IPAK mengukur praktik anti-korupsi dalam pelayanan
+    </div>
+    <div class="option" onclick="jawabQuiz(this,false)">
+      Enumerator boleh mengumumkan temuan pungli di lokasi
+    </div>
+
+    <button class="btn-green" onclick="selesai()">Selesaikan Modul</button>
+    <div id="hasil" style="margin-top:10px;font-weight:600;"></div>
+  </section>
+
+</main>
+
+<footer>
+  <button class="btn-gray" onclick="location.href='index.html'">⬅ Dashboard</button>
+  <span>Modul 3</span>
+</footer>
+
+<script>
+  let skor=0, total=2;
+
+  function jawabRole(el,benar){
+    if(el.classList.contains("correct")||el.classList.contains("wrong"))return;
+    if(benar){el.classList.add("correct");skor++;}
+    else{el.classList.add("wrong");}
+  }
+
+  function jawabQuiz(el,benar){
+    if(el.classList.contains("correct")||el.classList.contains("wrong"))return;
+    if(benar){el.classList.add("correct");skor++;}
+    else{el.classList.add("wrong");}
+  }
+
+  function selesai(){
+    const nilai=Math.round((skor/total)*100);
+    const h=document.getElementById("hasil");
+    if(nilai>=80){
+      h.innerHTML=`✅ LULUS (${nilai}%) – Modul 4 terbuka`;
+      h.style.color="var(--green-dark)";
+      localStorage.setItem("modul3_lulus","true");
+    }else{
+      h.innerHTML=`❌ BELUM LULUS (${nilai}%) – ulangi modul`;
+      h.style.color="var(--danger)";
+    }
+  }
+</script>
+
+</body>
+</html>
